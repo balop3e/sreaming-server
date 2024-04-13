@@ -1,4 +1,4 @@
-FROM codeworksio/nginx:1.15.8-20190219
+FROM nginx:1.21.6
 
 ARG APT_PROXY
 ARG APT_PROXY_SSL

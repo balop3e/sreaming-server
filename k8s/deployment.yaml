@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streaming-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: streaming-server
+  template:
+    metadata:
+      labels:
+        app: streaming-server
+    spec:
+      containers:
+      - name: streaming-server
+        image: balop3e/streaming-server:latest
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: storage
+          mountPath: /path/to/mount
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "250Mi"
+            cpu: "200m"
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: streaming-server-pvc
