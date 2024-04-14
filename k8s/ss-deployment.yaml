@@ -3,10 +3,10 @@ kind: Deployment
 metadata:
   name: streaming-server-deployment
 spec:
-  replicas: 1
+  replicas: 1 # number of pods to maintain
   selector:
     matchLabels:
-      app: streaming-server
+      app: streaming-server #pods managed by the deployment
   template:
     metadata:
       labels:
@@ -14,23 +14,23 @@ spec:
     spec:
       containers:
       - name: streaming-server
-        image: balop3e/streaming-server:latest
+        image: balop3e/streaming-server:latest #container image
         ports:
-        - containerPort: 8080
+        - containerPort: 8080 #port the container exposes
         volumeMounts:
         - name: storage
-          mountPath: /data
-        resources:
+          mountPath: /data #mount path for the storage volume
+        resources: #resource requests and limits for container
           requests:
             memory: "100Mi"
             cpu: "100m"
           limits:
             memory: "250Mi"
             cpu: "200m"
-        securityContext:
+        securityContext: #security settings for the container
           runAsNonRoot: true
           runAsUser: 1000
       volumes:
-      - name: storage
+      - name: storage #volume destination
         persistentVolumeClaim:
-          claimName: streaming-server-pvc
+          claimName: streaming-server-pvc #pvc used for the vlume
