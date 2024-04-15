@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: streaming-server-service-client
+  namespace: streaming-server
+  labels:
+    app: streaming-server-client
+spec:
+  type: LoadBalancer
+  ports:
+    - name: "port9999"
+      port: 9999 #port that the service exposes
+      targetPort: 8080 #the port on the pod that the service routes to
+      protocol: TCP
+  selector:
+    app: streaming-server-client # identifies the pods this service should route traffic

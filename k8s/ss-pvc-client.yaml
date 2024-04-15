@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: streaming-server-pvc-client
+  namespace: streaming-server
+  labels:
+    app: streaming-server-client
+spec:
+  accessModes:
+    - ReadWriteOnce # mounted as read-write
+  resources:
+    requests:
+      storage: 800Mi #amount of storage requested

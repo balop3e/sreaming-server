@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streaming-server-deployment-client
+  namespace: streaming-server
+  labels:
+    app: streaming-server-client
+spec:
+  replicas: 1 # number of pods to maintain
+  selector:
+    matchLabels:
+      app: streaming-server-client #pods managed by the deployment
+  template:
+    metadata:
+      labels:
+        app: streaming-server-client
+    spec:
+      containers:
+      - name: streaming-client
+        image: nginx #container image
+        ports:
+        - containerPort: 8080 #port the container exposes
+        volumeMounts:
+        - name: storage-client
+          mountPath: /var/www #mount path for the storage volume
+        resources: #resource requests and limits for container
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "250Mi"
+            cpu: "200m"
+        # securityContext: #security settings for the container
+        #   runAsNonRoot: true
+        #   runAsUser: 1000
+      volumes:
+      - name: storage-client #volume destination
+        persistentVolumeClaim:
+          claimName: streaming-server-pvc-client #pvc used for the vlume
